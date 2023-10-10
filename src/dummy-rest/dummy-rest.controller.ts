@@ -6,15 +6,20 @@ import {
   Patch,
   Param,
   Delete,
+  Inject,
 } from '@nestjs/common';
 import { DummyRestService } from './dummy-rest.service';
 import { CreateDummyRestDto } from './dto/create-dummy-rest.dto';
 import { UpdateDummyRestDto } from './dto/update-dummy-rest.dto';
 import { gqlDto } from './dto/query.dto';
-
+import { Cache } from 'cache-manager';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
 @Controller('dummy-rest')
 export class DummyRestController {
-  constructor(private readonly dummyRestService: DummyRestService) {}
+  constructor(
+    private readonly dummyRestService: DummyRestService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+  ) {}
 
   @Post()
   create(@Body() createDummyRestDto: CreateDummyRestDto) {
